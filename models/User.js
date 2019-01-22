@@ -44,42 +44,38 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  feedbacks: {
-    users: [
-      {
-        user: {
-          type: Schema.Types.ObjectId,
-          ref: "users",
-          required: true
-        },
-        message: {
-          type: String
-        },
-        date: {
-          type: Date,
-          default: Date.now
-        }
+  feedbacks: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: "users",
+        required: true
+      },
+      message: {
+        type: String
+      },
+      date: {
+        type: Date,
+        default: Date.now
       }
-    ]
-  },
-  stars: {
-    users: [
-      {
-        user: {
-          type: Schema.Types.ObjectId,
-          ref: "users",
-          required: true
-        },
-        points: {
-          type: Number
-        },
-        date: {
-          type: Date,
-          default: Date.now
-        }
+    }
+  ],
+  ratings: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: "users",
+        required: true
+      },
+      rating: {
+        type: Number
+      },
+      date: {
+        type: Date,
+        default: Date.now
       }
-    ]
-  }
+    }
+  ]
 });
 
 module.exports = User = mongoose.model("users", UserSchema);

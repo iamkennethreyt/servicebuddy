@@ -198,10 +198,19 @@ router.put(
 // @desc    Show all users
 // @access  Public
 router.get("/workers", (req, res) => {
-  User.find({ usertype: "worker" })
-    .sort({ date: -1 })
-    .then(users => res.json(users))
-    .catch(err => res.status(404).json({ nousersfound: "No users found" }));
+  User.aggregate([
+    {
+      $unwind: "$ratings"
+    },
+    {
+      $group: {
+        _id: "$_id",
+        avgrating: { $avg: "$ratings.rating" }
+      }
+    }
+  ]).then(data => res.json(data));
+  // User.find({ usertype: "worker" }).then(users => res.json(users));
+  //   .catch(err => res.status(404).json({ nousersfound: "No users found" }));
 });
 
 // @route   GET api/users/:id
@@ -211,7 +220,6 @@ router.get("/worker/:id", (req, res) => {
   User.findById(req.params.id)
     .then(adv => {
       if (adv) {
-        res.json(adv);
       } else {
         res.status(404).json({ noadvfound: "No User found with that ID" });
       }
@@ -237,5 +245,23 @@ router.post("/stars/:id", (req, res) => {
       res.status(404).json({ noadvfound: "No User found with that ID" })
     );
 });
+
+// @route   PUT api/advertisements/:id
+// @desc    Add ratings
+// @access  Private
+router.put(
+  "/rating/",
+  // passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    User.findOne({ email: req.body.email }).then(user => {
+      const newRating = {
+        user: req.body.id,
+        rating: req.body.rating
+      };
+      user.ratings.unshift(newRating);
+      user.save().then(user => res.json(user));
+    });
+  }
+);
 
 module.exports = router;
