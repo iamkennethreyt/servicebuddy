@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 
 const users = require("./routes/api/users");
+const workertypes = require("./routes/api/workertypes");
 
 const app = express();
 
@@ -31,6 +32,7 @@ require("./config/passport")(passport);
 
 //use routesadvertisements
 app.use("/api/users", users);
+app.use("/api/workertypes", workertypes);
 
 const port = process.env.PORT || 5000;
 
