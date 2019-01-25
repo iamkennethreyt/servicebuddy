@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const router = express.Router();
-
+const _ = require("lodash");
 const key = require("../../config/key").secretOrkey;
 
 //load validation
@@ -196,32 +196,59 @@ router.put(
 // @route   GET api/users/workers
 // @desc    Show all users
 // @access  Public
-router.get("/workers", (req, res) => {
-  User.aggregate([
-    {
-      $unwind: "$ratings"
-    },
-    {
-      $group: {
-        _id: "$_id",
-        avgrating: { $avg: "$ratings.rating" }
-      }
-    }
-  ]).then(data => res.json(data));
-  // User.find({ usertype: "worker" }).then(users => res.json(users));
-  //   .catch(err => res.status(404).json({ nousersfound: "No users found" }));
-});
+router.get(
+  "/workers",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    User.find().then(users =>
+      res.json(
+        users.map(u => {
+          const { email, cityprovince, name, ratings, _id } = u;
+          return {
+            _id,
+            name,
+            email,
+            cityprovince,
+            rating: _.round(_.meanBy(ratings, o => o.rating))
+          };
+        })
+      )
+    );
+  }
+);
 
 // @route   GET api/users/:id
 // @desc    Show single user based on the params id
 // @access  Public
 router.get("/worker/:id", (req, res) => {
   User.findById(req.params.id)
-    .then(adv => {
-      if (adv) {
-      } else {
-        res.status(404).json({ noadvfound: "No User found with that ID" });
+    .then(user => {
+      if (!user) {
+        return res
+          .status(404)
+          .json({ noadvfound: "No User found with that ID" });
       }
+      const {
+        _id,
+        name,
+        email,
+        contactinfo,
+        cityprovince,
+        completeaddress,
+        feedbacks,
+        ratings
+      } = user;
+
+      res.json({
+        _id,
+        name,
+        email,
+        contactinfo,
+        cityprovince,
+        completeaddress,
+        feedbacks,
+        rating: _.round(_.meanBy(ratings, o => o.rating))
+      });
     })
     .catch(err =>
       res.status(404).json({ noadvfound: "No User found with that ID" })

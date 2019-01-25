@@ -45,6 +45,10 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now
   },
+  status: {
+    type: Boolean,
+    default: true
+  },
   feedbacks: [
     {
       user: {
