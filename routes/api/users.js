@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
-
+const _ = require("lodash");
 const router = express.Router();
 
 const key = require("../../config/key").secretOrkey;
@@ -120,7 +120,7 @@ router.get(
 //@desc     account settings of the current logged in user
 //@access   private
 router.put(
-  "/profile/accountsettings",
+  "/settings/account",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const userFields = {};
@@ -249,17 +249,36 @@ router.post("/stars/:id", (req, res) => {
 // @route   PUT api/advertisements/:id
 // @desc    Add ratings
 // @access  Private
+//@comment  email here kay siya ang ma butngan ug rate, then ang id kay, user id sa mo rate
 router.put(
-  "/rating/",
-  // passport.authenticate("jwt", { session: false }),
+  "/rating/:id",
+  passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    User.findOne({ email: req.body.email }).then(user => {
+    User.findById(req.params.id).then(user => {
+      // res.json(user);
+      if (!user) {
+        return res.status(400).json({ user: "user not found" });
+      }
+
       const newRating = {
-        user: req.body.id,
+        user: req.user.id,
         rating: req.body.rating
       };
-      user.ratings.unshift(newRating);
-      user.save().then(user => res.json(user));
+
+      const found = _.find(user.ratings, o => {
+        return o.user == req.user.id;
+      });
+      if (!found) {
+        user.ratings.unshift(newRating);
+        user.save().then(user => res.json(user));
+      } else {
+        User.updateOne(
+          { _id: req.params.id, "ratings.user": req.user.id },
+          { $set: { "ratings.$.rating": req.body.rating } }
+        ).then(() => {
+          User.findById(req.params.id).then(d => res.json(d));
+        });
+      }
     });
   }
 );
