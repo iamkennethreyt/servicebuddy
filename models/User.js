@@ -52,7 +52,7 @@ const UserSchema = new Schema({
         ref: "users",
         required: true
       },
-      message: {
+      feedback: {
         type: String
       },
       date: {

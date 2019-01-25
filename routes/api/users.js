@@ -2,7 +2,6 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
-const _ = require("lodash");
 const router = express.Router();
 
 const key = require("../../config/key").secretOrkey;
@@ -249,7 +248,6 @@ router.post("/stars/:id", (req, res) => {
 // @route   PUT api/advertisements/:id
 // @desc    Add ratings
 // @access  Private
-//@comment  email here kay siya ang ma butngan ug rate, then ang id kay, user id sa mo rate
 router.put(
   "/rating/:id",
   passport.authenticate("jwt", { session: false }),
@@ -265,9 +263,10 @@ router.put(
         rating: req.body.rating
       };
 
-      const found = _.find(user.ratings, o => {
+      const found = user.ratings.find(o => {
         return o.user == req.user.id;
       });
+
       if (!found) {
         user.ratings.unshift(newRating);
         user.save().then(user => res.json(user));
@@ -279,6 +278,32 @@ router.put(
           User.findById(req.params.id).then(d => res.json(d));
         });
       }
+    });
+  }
+);
+
+// @route   PUT api/advertisements/:id
+// @desc    Add ratings
+// @access  Private
+router.put(
+  "/feedback/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    User.findById(req.params.id).then(user => {
+      // res.json(user);
+      if (!user) {
+        return res.status(400).json({ user: "user not found" });
+      }
+      if (!req.body.feedback) {
+        return res.status(400).json({ feedback: "feedback field is required" });
+      }
+      const newFeedback = {
+        user: req.user.id,
+        feedback: req.body.feedback
+      };
+
+      user.feedbacks.unshift(newFeedback);
+      user.save().then(user => res.json(user));
     });
   }
 );
