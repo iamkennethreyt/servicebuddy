@@ -14,6 +14,13 @@ const ValidatePasswordSettings = require("../../validations/accountsettings/pass
 //load User model
 const User = require("../../models/User");
 
+//@route    GET api/users/profile
+//@desc     return current user
+//@access   private
+router.get("/test", (req, res) => {
+  res.json({ hi: "hello world" });
+});
+
 //@route    POST api/users/register
 //@desc     register new user
 //@access   public
