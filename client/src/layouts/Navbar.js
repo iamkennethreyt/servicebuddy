@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../actions/authActions";
-import isEmpty from "../validation/is-empty";
+import _ from "lodash";
 
 class Navbar extends Component {
   onLogoutClick(e) {
@@ -10,7 +10,7 @@ class Navbar extends Component {
     this.props.logoutUser();
   }
   render() {
-    return !isEmpty(this.props.auth.user) ? (
+    return !_.isEmpty(this.props.auth.user) ? (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container">
           <a className="navbar-brand" href="/">

@@ -52,7 +52,7 @@ class SignIn extends Component {
     const { errors } = this.state;
 
     return (
-      <div className="container my-5 text-center">
+      <div className="container my-5">
         <div className="row">
           <div className="col-md-6 m-auto">
             <p className="lead text-center">
@@ -87,7 +87,8 @@ class SignIn extends Component {
 
 SignIn.propTypes = {
   loginUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
