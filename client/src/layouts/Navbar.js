@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../actions/authActions";
+import { withRouter, Link } from "react-router-dom";
 import _ from "lodash";
 
 class Navbar extends Component {
@@ -35,9 +36,9 @@ class Navbar extends Component {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/">
-                  Features
-                </a>
+                <Link className="nav-link" to="/settings">
+                  Settings
+                </Link>
               </li>
               <li className="nav-item">
                 <a
@@ -68,4 +69,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { logoutUser }
-)(Navbar);
+)(withRouter(Navbar));

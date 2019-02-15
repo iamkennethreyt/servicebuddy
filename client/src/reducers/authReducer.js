@@ -1,4 +1,4 @@
-import isEmpty from "../validation/is-empty";
+import _ from "lodash";
 
 import { SET_CURRENT_USER } from "../actions/types";
 
@@ -12,7 +12,7 @@ export default function(state = initialState, action) {
     case SET_CURRENT_USER:
       return {
         ...state,
-        isAuthenticated: !isEmpty(action.payload),
+        isAuthenticated: !_.isEmpty(action.payload),
         user: action.payload
       };
     default:

@@ -16,6 +16,7 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 import Dashboard from "./Components/dashboard/dashboard";
 import Signin from "./Components/auth/SignIn";
+import ProfileSettings from "./Components/settings/ProfileSettings";
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -29,8 +30,6 @@ if (localStorage.jwtToken) {
 
 class App extends Component {
   render() {
-    console.log("test");
-
     return (
       <Provider store={store}>
         <Router>
@@ -41,6 +40,13 @@ class App extends Component {
               <div className="container">
                 <Switch>
                   <PrivateRoute exact path="/" component={Dashboard} />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path="/settings"
+                    component={ProfileSettings}
+                  />
                 </Switch>
               </div>
             </div>
