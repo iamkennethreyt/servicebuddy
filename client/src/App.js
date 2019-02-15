@@ -17,6 +17,7 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import Dashboard from "./Components/dashboard/dashboard";
 import Signin from "./Components/auth/SignIn";
 import ProfileSettings from "./Components/settings/ProfileSettings";
+import PasswordSettings from "./Components/settings/PasswordSettings";
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -46,6 +47,13 @@ class App extends Component {
                     exact
                     path="/settings"
                     component={ProfileSettings}
+                  />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path="/settings/password"
+                    component={PasswordSettings}
                   />
                 </Switch>
               </div>

@@ -11,7 +11,8 @@ const TextFieldGroup = ({
   info,
   type,
   onChange,
-  disabled
+  disabled,
+  defaultValue
 }) => {
   return (
     <div className="form-group">
@@ -23,6 +24,7 @@ const TextFieldGroup = ({
         placeholder={placeholder}
         name={name}
         value={value}
+        defaultValue={defaultValue}
         onChange={onChange}
         disabled={disabled}
       />
@@ -35,7 +37,8 @@ const TextFieldGroup = ({
 TextFieldGroup.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
+  defaultValue: PropTypes.string,
   info: PropTypes.string,
   error: PropTypes.string,
   type: PropTypes.string.isRequired,

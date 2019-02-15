@@ -158,6 +158,7 @@ class ProfileSettings extends Component {
                   </div>
                 )}
               </div>
+
               <input type="submit" className="btn btn-info btn-block mt-4" />
               <Link to="/settings/password">Password Settings</Link>
             </form>

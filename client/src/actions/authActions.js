@@ -59,6 +59,21 @@ export const profileSettings = newData => dispatch => {
     });
 };
 
+//update password
+export const updatePassword = (data, history) => dispatch => {
+  axios
+    .put("/api/users/profile/passwordsettings", data)
+    .then(() => {
+      history.push("/");
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
 // Set logged in user
 export const setCurrentUser = decoded => {
   return {
