@@ -20,6 +20,8 @@ import ProfileSettings from "./Components/settings/ProfileSettings";
 import PasswordSettings from "./Components/settings/PasswordSettings";
 import RegisterUser from "./Components/auth/RegisterUser";
 import WorkerTypes from "./Components/workertypes/WorkerTypes";
+import RegisterWorker from "./Components/auth/RegisterWorker";
+import Advertisements from "./Components/advertisements/Advertisements";
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -39,6 +41,7 @@ class App extends Component {
           <Fragment>
             <Route exact path="/signin" component={Signin} />
             <Route exact path="/registeruser" component={RegisterUser} />
+            <Route exact path="/registerworker" component={RegisterWorker} />
             <div>
               <Navbar />
               <div className="container">
@@ -64,6 +67,13 @@ class App extends Component {
                     exact
                     path="/workertypes"
                     component={WorkerTypes}
+                  />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path="/advertisements"
+                    component={Advertisements}
                   />
                 </Switch>
               </div>

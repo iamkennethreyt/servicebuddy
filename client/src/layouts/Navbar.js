@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../actions/authActions";
@@ -40,11 +40,20 @@ class Navbar extends Component {
                   Settings
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/workertypes">
-                  Worker Types
-                </Link>
-              </li>
+              {this.props.auth.user.usertype === "admin" ? (
+                <Fragment>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/workertypes">
+                      Worker Types
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/advertisements">
+                      Advertisements
+                    </Link>
+                  </li>
+                </Fragment>
+              ) : null}
               <li className="nav-item">
                 <a
                   className="nav-link"

@@ -34,8 +34,9 @@ const UserSchema = new Schema({
     required: true
   },
   workertype: {
-    type: Schema.Types.ObjectId,
-    ref: "workertypes"
+    type: String
+    // type: Schema.Types.ObjectId,
+    // ref: "workertypes"
   },
   usertype: {
     type: String,

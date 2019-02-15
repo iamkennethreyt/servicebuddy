@@ -5,6 +5,7 @@ const passport = require("passport");
 
 const users = require("./routes/api/users");
 const workertypes = require("./routes/api/workertypes");
+const advertisements = require("./routes/api/advertisements");
 
 const app = express();
 
@@ -30,6 +31,7 @@ require("./config/passport")(passport);
 //use routesadvertisements
 app.use("/api/users", users);
 app.use("/api/workertypes", workertypes);
+app.use("/api/advertisements", advertisements);
 
 const port = process.env.PORT || 5000;
 
