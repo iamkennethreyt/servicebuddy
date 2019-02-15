@@ -3,9 +3,9 @@ import classnames from "classnames";
 import PropTypes from "prop-types";
 
 const SelectListGroup = ({ name, value, error, info, onChange, options }) => {
-  const selectOptions = options.map(option => (
-    <option key={option.label} value={option.value}>
-      {option.label}
+  const selectOptions = options.map((option, i) => (
+    <option key={i} value={option}>
+      {option}
     </option>
   ));
   return (

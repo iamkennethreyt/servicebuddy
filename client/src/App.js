@@ -18,6 +18,7 @@ import Dashboard from "./Components/dashboard/dashboard";
 import Signin from "./Components/auth/SignIn";
 import ProfileSettings from "./Components/settings/ProfileSettings";
 import PasswordSettings from "./Components/settings/PasswordSettings";
+import RegisterUser from "./Components/auth/RegisterUser";
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -36,6 +37,7 @@ class App extends Component {
         <Router>
           <Fragment>
             <Route exact path="/signin" component={Signin} />
+            <Route exact path="/registeruser" component={RegisterUser} />
             <div>
               <Navbar />
               <div className="container">

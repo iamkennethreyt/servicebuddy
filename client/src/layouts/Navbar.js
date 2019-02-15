@@ -41,6 +41,11 @@ class Navbar extends Component {
                 </Link>
               </li>
               <li className="nav-item">
+                <Link className="nav-link" to="/workertypes">
+                  Worker Types
+                </Link>
+              </li>
+              <li className="nav-item">
                 <a
                   className="nav-link"
                   href="/"
