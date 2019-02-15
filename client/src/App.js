@@ -19,6 +19,7 @@ import Signin from "./Components/auth/SignIn";
 import ProfileSettings from "./Components/settings/ProfileSettings";
 import PasswordSettings from "./Components/settings/PasswordSettings";
 import RegisterUser from "./Components/auth/RegisterUser";
+import WorkerTypes from "./Components/workertypes/WorkerTypes";
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -56,6 +57,13 @@ class App extends Component {
                     exact
                     path="/settings/password"
                     component={PasswordSettings}
+                  />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path="/workertypes"
+                    component={WorkerTypes}
                   />
                 </Switch>
               </div>
