@@ -1,10 +1,18 @@
 import axios from "axios";
 
-import { GET_ERRORS, PUT_USER, GET_WORKER, CLEAR_ERRORS } from "./types";
+import {
+  GET_ERRORS,
+  PUT_USER,
+  GET_WORKER,
+  GET_WORKERS,
+  CLEAR_ERRORS,
+  LOADING_WORKERS
+} from "./types";
 
 //get previous user
 export const getWorker = id => dispatch => {
   dispatch(clearErrors());
+  dispatch(setLoading());
   axios
     .get(`/api/users/worker/${id}`)
     .then(res => {
@@ -17,6 +25,25 @@ export const getWorker = id => dispatch => {
       dispatch({
         payload: {},
         type: GET_WORKER
+      });
+    });
+};
+
+//show all workers
+export const getWorkers = () => dispatch => {
+  dispatch(setLoading());
+  axios
+    .get(`/api/users/workers/`)
+    .then(res => {
+      dispatch({
+        payload: res.data,
+        type: GET_WORKERS
+      });
+    })
+    .catch(err => {
+      dispatch({
+        payload: {},
+        type: GET_WORKERS
       });
     });
 };
@@ -43,5 +70,12 @@ export const profileSettings = newData => dispatch => {
 export const clearErrors = () => {
   return {
     type: CLEAR_ERRORS
+  };
+};
+
+// Set loading state
+export const setLoading = () => {
+  return {
+    type: LOADING_WORKERS
   };
 };

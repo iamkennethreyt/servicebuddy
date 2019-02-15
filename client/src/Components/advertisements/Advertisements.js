@@ -26,7 +26,7 @@ class Advertisements extends Component {
         ) : (
           advertisements.map((wt, i) => (
             <li key={i} className="list-group-item align-items-center">
-              <img src={wt.advertisement} class="card-img-top" alt="..." />
+              <img src={wt.advertisement} className="card-img-top" alt="..." />
 
               <button
                 className="btn btn-sm btn-danger mt-2"

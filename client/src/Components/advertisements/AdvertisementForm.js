@@ -46,7 +46,7 @@ class AdvertisementForm extends Component {
             <p className="lead text-center">Add Advertisment</p>
             <form onSubmit={this.onSubmit} className="p-3">
               <TextFieldGroup
-                placeholder="Input the link of advertisement"
+                placeholder="Paste image URL of advertisement"
                 name="advertisement"
                 value={this.state.advertisement}
                 onChange={this.onChange}

@@ -14,6 +14,8 @@ export const GET_POST = "GET_POST";
 export const ADD_POST = "ADD_POST";
 export const DELETE_POST = "DELETE_POST";
 
+//WORKERS
+export const LOADING_WORKERS = "LOADING_WORKERS";
 export const GET_WORKER = "GET_WORKER";
 export const GET_WORKERS = "GET_WORKERS";
 

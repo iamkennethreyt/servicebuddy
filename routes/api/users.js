@@ -211,15 +211,31 @@ router.get(
   "/workers",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    User.find().then(users =>
+    User.find({ usertype: "worker" }).then(users =>
       res.json(
         users.map(u => {
-          const { email, cityprovince, name, ratings, _id } = u;
+          const {
+            email,
+            cityprovince,
+            name,
+            ratings,
+            _id,
+            workertype,
+            details,
+            completeaddress,
+            contactinfo,
+            agency
+          } = u;
           return {
             _id,
             name,
             email,
             cityprovince,
+            workertype,
+            details,
+            agency,
+            completeaddress,
+            contactinfo,
             rating: _.round(_.meanBy(ratings, o => o.rating))
           };
         })
@@ -240,24 +256,29 @@ router.get("/worker/:id", (req, res) => {
           .json({ noadvfound: "No User found with that ID" });
       }
       const {
-        _id,
-        name,
         email,
-        contactinfo,
         cityprovince,
+        name,
+        ratings,
+        _id,
+        workertype,
+        details,
         completeaddress,
-        feedbacks,
-        ratings
+        contactinfo,
+        agency
       } = user;
 
       res.json({
-        _id,
-        name,
         email,
-        contactinfo,
         cityprovince,
+        name,
+        ratings,
+        _id,
+        workertype,
+        details,
         completeaddress,
-        feedbacks,
+        contactinfo,
+        agency,
         rating: _.round(_.meanBy(ratings, o => o.rating))
       });
     })

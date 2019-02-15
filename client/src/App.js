@@ -9,7 +9,7 @@ import { setCurrentUser } from "./actions/authActions";
 import { Provider } from "react-redux";
 import store from "./store";
 
-import Navbar from "./layouts/Navbar";
+import Navbar from "./Components/layouts/Navbar";
 import PrivateRoute from "./Components/common/PrivateRoute";
 
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
@@ -22,6 +22,8 @@ import RegisterUser from "./Components/auth/RegisterUser";
 import WorkerTypes from "./Components/workertypes/WorkerTypes";
 import RegisterWorker from "./Components/auth/RegisterWorker";
 import Advertisements from "./Components/advertisements/Advertisements";
+import Workers from "./Components/workers/Workers";
+import Worker from "./Components/workers/Worker";
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -75,6 +77,12 @@ class App extends Component {
                     path="/advertisements"
                     component={Advertisements}
                   />
+                </Switch>
+                <Switch>
+                  <PrivateRoute exact path="/workers" component={Workers} />
+                </Switch>
+                <Switch>
+                  <PrivateRoute exact path="/worker/:id" component={Worker} />
                 </Switch>
               </div>
             </div>
