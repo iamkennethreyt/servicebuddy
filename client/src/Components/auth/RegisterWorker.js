@@ -5,7 +5,7 @@ import { registerUser } from "../../actions/authActions";
 import { getWorkerTypes } from "../../actions/worketypesAction";
 import TextFieldGroup from "../common/TextFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
-import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
+import Button from "@material-ui/core/Button";
 
 class RegisterUser extends Component {
   constructor() {
@@ -100,7 +100,7 @@ class RegisterUser extends Component {
             <p className="lead text-center">
               Register User Service Buddy account
             </p>
-            <form onSubmit={this.onSubmit} className="p-3">
+            <form onSubmit={this.onSubmit} className="p-3" noValidate>
               <TextFieldGroup
                 placeholder="Full Name"
                 name="name"
@@ -150,20 +150,24 @@ class RegisterUser extends Component {
                 error={errors.agency}
               />
 
-              <TextAreaFieldGroup
+              <TextFieldGroup
                 placeholder="Biography"
                 name="details"
                 value={this.state.details}
                 onChange={this.onChange}
                 error={errors.details}
+                multiline={true}
+                rows="4"
               />
 
-              <TextAreaFieldGroup
+              <TextFieldGroup
                 placeholder="Complete Address"
                 name="completeaddress"
                 value={this.state.completeaddress}
                 onChange={this.onChange}
                 error={errors.completeaddress}
+                rows="4"
+                multiline
               />
 
               <TextFieldGroup
@@ -183,8 +187,25 @@ class RegisterUser extends Component {
                 onChange={this.onChange}
                 error={errors.password2}
               />
-
-              <input type="submit" className="btn btn-info btn-block mt-4" />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="secondary"
+                className="mt-4"
+              >
+                Register
+              </Button>
+              <Button
+                onClick={() => this.props.history.push("/signin")}
+                type="submit"
+                variant="outlined"
+                fullWidth
+                color="secondary"
+                className="mt-2"
+              >
+                Cancel
+              </Button>
             </form>
           </div>
         </div>

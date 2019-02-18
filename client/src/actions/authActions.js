@@ -42,7 +42,7 @@ export const loginUser = userData => dispatch => {
 };
 
 //profile settings
-export const profileSettings = newData => dispatch => {
+export const profileSettings = (newData, history) => dispatch => {
   axios
     .put("/api/users/settings/account", newData)
     .then(res => {
@@ -50,6 +50,7 @@ export const profileSettings = newData => dispatch => {
         type: PUT_USER,
         payload: res.data
       });
+      history.push("/");
     })
     .catch(err => {
       dispatch({

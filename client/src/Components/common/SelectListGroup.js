@@ -1,28 +1,36 @@
 import React from "react";
-import classnames from "classnames";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import FormHelperText from "@material-ui/core/FormHelperText";
+
+import Select from "@material-ui/core/Select";
 import PropTypes from "prop-types";
 
 const SelectListGroup = ({ name, value, error, info, onChange, options }) => {
   const selectOptions = options.map((option, i) => (
-    <option key={i} value={option}>
+    <MenuItem key={i} value={option}>
       {option}
-    </option>
+    </MenuItem>
   ));
   return (
-    <div className="form-group">
-      <select
-        className={classnames("form-control form-control-lg", {
-          "is-invalid": error
-        })}
+    <FormControl fullWidth>
+      <InputLabel htmlFor={name}>{name}</InputLabel>
+      <Select
         name={name}
         value={value}
         onChange={onChange}
+        error={error && true}
+        id={name}
       >
         {selectOptions}
-      </select>
-      {info && <small className="form-text text-muted">{info}</small>}
-      {error && <div className="invalid-feedback">{error}</div>}
-    </div>
+      </Select>
+      {error && (
+        <FormHelperText id={name} error>
+          {error}
+        </FormHelperText>
+      )}
+    </FormControl>
   );
 };
 

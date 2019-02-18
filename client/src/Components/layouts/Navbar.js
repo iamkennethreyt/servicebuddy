@@ -3,75 +3,68 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
 import { withRouter, Link } from "react-router-dom";
+
+import Paper from "@material-ui/core/Paper";
+import { withStyles } from "@material-ui/core/styles";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Home from "@material-ui/icons/Home";
+import People from "@material-ui/icons/NaturePeople";
+import Power from "@material-ui/icons/PowerSettingsNew";
+import Settings from "@material-ui/icons/Settings";
 import _ from "lodash";
 
 class Navbar extends Component {
+  state = { value: 0 };
   onLogoutClick(e) {
     e.preventDefault();
     this.props.logoutUser();
   }
+
+  onRoute = route => {
+    this.props.history.push(route);
+  };
+
+  handleChange = (e, value) => {
+    e.preventDefault();
+    this.setState({ value });
+  };
+
   render() {
     return !_.isEmpty(this.props.auth.user) ? (
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container">
-          <a className="navbar-brand" href="/">
-            Navbar
-          </a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarNavDropdown"
-            aria-controls="navbarNavDropdown"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon" />
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul className="navbar-nav ml-auto">
-              <li className="nav-item active">
-                <a className="nav-link" href="/">
-                  Home <span className="sr-only">(current)</span>
-                </a>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/settings">
-                  Settings
-                </Link>
-              </li>
-              {this.props.auth.user.usertype === "admin" ? (
-                <Fragment>
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/workertypes">
-                      Worker Types
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/advertisements">
-                      Advertisements
-                    </Link>
-                  </li>
-                </Fragment>
-              ) : null}
-              <li className="nav-item">
-                <Link className="nav-link" to="/workers">
-                  Workers
-                </Link>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  href="/"
-                  onClick={this.onLogoutClick.bind(this)}
-                >
-                  Sign out
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+      <React.Fragment>
+        <div className="pt-4" />
+        <Tabs
+          position="fixed"
+          value={this.state.value}
+          onChange={this.handleChange}
+          variant="fullWidth"
+          indicatorColor="secondary"
+          textColor="secondary"
+          className="fixed-bottom bg-light"
+        >
+          <Tab
+            icon={<Home />}
+            label="HOME"
+            onClick={this.onRoute.bind(this, "/")}
+          />
+          <Tab
+            icon={<People />}
+            label="Workers"
+            onClick={this.onRoute.bind(this, "/workers")}
+          />
+          <Tab
+            icon={<Settings />}
+            label="SETTINGS"
+            onClick={this.onRoute.bind(this, "/settings")}
+          />
+          <Tab
+            icon={<Power />}
+            label="SIGN OUT"
+            onClick={this.onLogoutClick.bind(this)}
+          />
+        </Tabs>
+      </React.Fragment>
     ) : null;
   }
 }

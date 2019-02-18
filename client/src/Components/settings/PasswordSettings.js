@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { updatePassword } from "../../actions/authActions";
 import TextFieldGroup from "../common/TextFieldGroup";
+import Button from "@material-ui/core/Button";
 
 class PasswordSettings extends Component {
   state = {
@@ -70,13 +71,25 @@ class PasswordSettings extends Component {
                 error={errors.password3}
               />
 
-              <button type="submit" className="btn btn-info btn-block mt-4">
-                Save
-              </button>
-
-              <Link to="/" className="btn btn-info btn-block mt-4">
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="secondary"
+                className="mt-3"
+              >
+                Change
+              </Button>
+              <Button
+                type="button"
+                fullWidth
+                variant="outlined"
+                color="secondary"
+                onClick={() => this.props.history.push("/settings")}
+                className="mt-2"
+              >
                 Cancel
-              </Link>
+              </Button>
             </form>
           </div>
         </div>

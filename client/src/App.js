@@ -45,7 +45,6 @@ class App extends Component {
             <Route exact path="/registeruser" component={RegisterUser} />
             <Route exact path="/registerworker" component={RegisterWorker} />
             <div>
-              <Navbar />
               <div className="container">
                 <Switch>
                   <PrivateRoute exact path="/" component={Dashboard} />
@@ -85,6 +84,7 @@ class App extends Component {
                   <PrivateRoute exact path="/worker/:id" component={Worker} />
                 </Switch>
               </div>
+              <Navbar />
             </div>
           </Fragment>
         </Router>

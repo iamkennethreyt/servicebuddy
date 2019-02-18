@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import { registerUser } from "../../actions/authActions";
 import TextFieldGroup from "../common/TextFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
-import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
+import Button from "@material-ui/core/Button";
 
 class RegisterUser extends Component {
   constructor() {
@@ -81,7 +82,7 @@ class RegisterUser extends Component {
             <p className="lead text-center">
               Register User Service Buddy account
             </p>
-            <form onSubmit={this.onSubmit} className="p-3">
+            <form onSubmit={this.onSubmit} className="p-3" noValidate>
               <TextFieldGroup
                 placeholder="Full Name"
                 name="name"
@@ -114,13 +115,14 @@ class RegisterUser extends Component {
                 onChange={this.onChange}
                 error={errors.contactinfo}
               />
-
-              <TextAreaFieldGroup
+              <TextFieldGroup
                 placeholder="Complete Address"
                 name="completeaddress"
                 value={this.state.completeaddress}
                 onChange={this.onChange}
                 error={errors.completeaddress}
+                multiline={true}
+                rows="4"
               />
 
               <TextFieldGroup
@@ -140,8 +142,25 @@ class RegisterUser extends Component {
                 onChange={this.onChange}
                 error={errors.password2}
               />
-
-              <input type="submit" className="btn btn-info btn-block mt-4" />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="secondary"
+                className="mt-4"
+              >
+                Register
+              </Button>
+              <Button
+                onClick={() => this.props.history.push("/signin")}
+                type="submit"
+                variant="outlined"
+                fullWidth
+                color="secondary"
+                className="mt-2"
+              >
+                Cancel
+              </Button>
             </form>
           </div>
         </div>
@@ -164,4 +183,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { registerUser }
-)(RegisterUser);
+)(withRouter(RegisterUser));
