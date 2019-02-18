@@ -37,62 +37,58 @@ class PasswordSettings extends Component {
   render() {
     const { errors } = this.state;
     return (
-      <div className="container my-5">
-        <div className="row">
-          <div className="col-md-6 m-auto">
-            <p className="lead text-center">Settings Account</p>
-            <form className="border border-light p-2" onSubmit={this.onSubmit}>
-              <p className="h4 mb-4">Password Settings</p>
+      <div className="container">
+        <p className="lead text-center">Settings Account</p>
+        <form className="border border-light" onSubmit={this.onSubmit}>
+          <p className="h4 mb-4">Password Settings</p>
 
-              <TextFieldGroup
-                placeholder="New Password"
-                name="password"
-                type="password"
-                value={this.state.password}
-                onChange={this.onChange}
-                error={errors.password}
-              />
+          <TextFieldGroup
+            placeholder="New Password"
+            name="password"
+            type="password"
+            value={this.state.password}
+            onChange={this.onChange}
+            error={errors.password}
+          />
 
-              <TextFieldGroup
-                placeholder="New Password"
-                name="password2"
-                type="password"
-                value={this.state.password2}
-                onChange={this.onChange}
-                error={errors.password2}
-              />
+          <TextFieldGroup
+            placeholder="New Password"
+            name="password2"
+            type="password"
+            value={this.state.password2}
+            onChange={this.onChange}
+            error={errors.password2}
+          />
 
-              <TextFieldGroup
-                placeholder="Confirm Password"
-                name="password3"
-                type="password"
-                value={this.state.password3}
-                onChange={this.onChange}
-                error={errors.password3}
-              />
+          <TextFieldGroup
+            placeholder="Confirm Password"
+            name="password3"
+            type="password"
+            value={this.state.password3}
+            onChange={this.onChange}
+            error={errors.password3}
+          />
 
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="secondary"
-                className="mt-3"
-              >
-                Change
-              </Button>
-              <Button
-                type="button"
-                fullWidth
-                variant="outlined"
-                color="secondary"
-                onClick={() => this.props.history.push("/settings")}
-                className="mt-2"
-              >
-                Cancel
-              </Button>
-            </form>
-          </div>
-        </div>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="secondary"
+            className="mt-3"
+          >
+            Change
+          </Button>
+          <Button
+            type="button"
+            fullWidth
+            variant="outlined"
+            color="secondary"
+            onClick={() => this.props.history.push("/settings")}
+            className="mt-2"
+          >
+            Cancel
+          </Button>
+        </form>
       </div>
     );
   }

@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addWorkerType } from "../../actions/worketypesAction";
 import TextFieldGroup from "../common/TextFieldGroup";
+import Button from "@material-ui/core/Button";
+import { withRouter } from "react-router-dom";
 
 class WorkerTypeForm extends Component {
   constructor() {
@@ -40,23 +42,38 @@ class WorkerTypeForm extends Component {
     const { errors } = this.state;
 
     return (
-      <div className="container my-5">
-        <div className="row">
-          <div className="col-md-6 m-auto">
-            <p className="lead text-center">Add worker type</p>
-            <form onSubmit={this.onSubmit} className="p-3">
-              <TextFieldGroup
-                placeholder="Worker Type"
-                name="workertype"
-                value={this.state.workertype}
-                onChange={this.onChange}
-                error={errors.workertype}
-              />
+      <div className="container">
+        <p className="lead text-center">Add worker type</p>
+        <form onSubmit={this.onSubmit}>
+          <TextFieldGroup
+            placeholder="Worker Type"
+            name="workertype"
+            value={this.state.workertype}
+            onChange={this.onChange}
+            error={errors.workertype}
+          />
 
-              <input type="submit" className="btn btn-info btn-block mt-2" />
-            </form>
-          </div>
-        </div>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="secondary"
+            className="mt-3"
+          >
+            Add
+          </Button>
+
+          <Button
+            type="button"
+            fullWidth
+            variant="outlined"
+            color="secondary"
+            className="mt-3"
+            onClick={() => this.props.history.push("/")}
+          >
+            Cancel
+          </Button>
+        </form>
       </div>
     );
   }
@@ -74,4 +91,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { addWorkerType }
-)(WorkerTypeForm);
+)(withRouter(WorkerTypeForm));

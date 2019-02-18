@@ -19,31 +19,47 @@ class Workers extends Component {
         Object.keys(workers).length === 0 ? (
           <h3>No Workers account yet added..</h3>
         ) : (
-          <ul className="list-group list-group-flush">
+          <ul className="list-group list-group-flush text-muted">
             {workers.map((w, i) => (
               <li key={i} className="list-group-item">
-                <div className="d-flex w-100 justify-content-between">
-                  <h5 className="mb-1">{w.name}</h5>
-                  <small>{w.workertype}</small>
-                </div>
-                <p className="mb-1">{w.details}</p>
-                <p className="mb-1">{w.contactinfo}</p>
-                <p className="mb-1">{w.email}</p>
-                <p className="mb-1">{w.completeaddress}</p>
-                <p className="mb-1">{w.cityprovince}</p>
-                <p className="mb-1">{w.agency}</p>
+                <h4 className="my-1 text-center">{w.name}</h4>
+                <p className="m-0">
+                  <strong>Worker Type : </strong>
+                  {w.workertype}
+                </p>
+                <p className="m-0">
+                  <strong>Worker Details : </strong>
+                  {w.details}
+                </p>
+                <p className="m-0">
+                  <strong>Contact Info : </strong>
+                  {w.contactinfo}
+                </p>
+                <p className="m-0">
+                  <strong>Email : </strong>
+                  {w.email}
+                </p>
+                <p className="m-0">
+                  <strong>Complete Address : </strong>
+                  {w.completeaddress}
+                </p>
+                <p className="m-0">
+                  <strong>Agency : </strong>
+
+                  {w.agency}
+                </p>
+                <p className="m-0">
+                  <strong>Rating : </strong>
+
+                  {w.rating}
+                </p>
                 <Link to={`worker/${w._id}`}>View Profile</Link>
               </li>
             ))}
           </ul>
         );
     }
-    return (
-      <div>
-        <h1>Workers</h1>
-        {listworkers}
-      </div>
-    );
+    return <div>{listworkers}</div>;
   }
 }
 

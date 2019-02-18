@@ -66,6 +66,25 @@ export const profileSettings = newData => dispatch => {
     });
 };
 
+//rate worker
+export const rateWorker = data => dispatch => {
+  axios
+    .put(`/api/users/rating/${data._id}`, data)
+    .then(res => {
+      // dispatch({
+      //   type: PUT_USER,
+      //   payload: res.data
+      // });
+      console.log("SUCCESS", res.data);
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
 // Clear errors
 export const clearErrors = () => {
   return {

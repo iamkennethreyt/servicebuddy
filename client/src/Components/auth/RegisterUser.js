@@ -76,94 +76,88 @@ class RegisterUser extends Component {
     const { errors } = this.state;
 
     return (
-      <div className="container my-5">
-        <div className="row">
-          <div className="col-md-6 m-auto">
-            <p className="lead text-center">
-              Register User Service Buddy account
-            </p>
-            <form onSubmit={this.onSubmit} className="p-3" noValidate>
-              <TextFieldGroup
-                placeholder="Full Name"
-                name="name"
-                value={this.state.name}
-                onChange={this.onChange}
-                error={errors.name}
-              />
+      <div className="container">
+        <p className="lead text-center">Register User Service Buddy account</p>
+        <form onSubmit={this.onSubmit} noValidate>
+          <TextFieldGroup
+            placeholder="Full Name"
+            name="name"
+            value={this.state.name}
+            onChange={this.onChange}
+            error={errors.name}
+          />
 
-              <TextFieldGroup
-                placeholder="Email Address"
-                name="email"
-                type="email"
-                value={this.state.email}
-                onChange={this.onChange}
-                error={errors.email}
-              />
+          <TextFieldGroup
+            placeholder="Email Address"
+            name="email"
+            type="email"
+            value={this.state.email}
+            onChange={this.onChange}
+            error={errors.email}
+          />
 
-              <SelectListGroup
-                name="cityprovince"
-                value={this.state.cityprovince}
-                options={["Cebu", "Bohol", "Bantayan"]}
-                error={errors.cityprovince}
-                onChange={this.onChange}
-              />
+          <SelectListGroup
+            name="cityprovince"
+            value={this.state.cityprovince}
+            options={["Cebu", "Bohol", "Bantayan"]}
+            error={errors.cityprovince}
+            onChange={this.onChange}
+          />
 
-              <TextFieldGroup
-                placeholder="Contact Information"
-                name="contactinfo"
-                value={this.state.contactinfo}
-                onChange={this.onChange}
-                error={errors.contactinfo}
-              />
-              <TextFieldGroup
-                placeholder="Complete Address"
-                name="completeaddress"
-                value={this.state.completeaddress}
-                onChange={this.onChange}
-                error={errors.completeaddress}
-                multiline={true}
-                rows="4"
-              />
+          <TextFieldGroup
+            placeholder="Contact Information"
+            name="contactinfo"
+            value={this.state.contactinfo}
+            onChange={this.onChange}
+            error={errors.contactinfo}
+          />
+          <TextFieldGroup
+            placeholder="Complete Address"
+            name="completeaddress"
+            value={this.state.completeaddress}
+            onChange={this.onChange}
+            error={errors.completeaddress}
+            multiline={true}
+            rows="4"
+          />
 
-              <TextFieldGroup
-                placeholder="Password"
-                name="password"
-                type="password"
-                value={this.state.password}
-                onChange={this.onChange}
-                error={errors.password}
-              />
+          <TextFieldGroup
+            placeholder="Password"
+            name="password"
+            type="password"
+            value={this.state.password}
+            onChange={this.onChange}
+            error={errors.password}
+          />
 
-              <TextFieldGroup
-                placeholder="Confirm Password"
-                name="password2"
-                type="password"
-                value={this.state.password2}
-                onChange={this.onChange}
-                error={errors.password2}
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="secondary"
-                className="mt-4"
-              >
-                Register
-              </Button>
-              <Button
-                onClick={() => this.props.history.push("/signin")}
-                type="submit"
-                variant="outlined"
-                fullWidth
-                color="secondary"
-                className="mt-2"
-              >
-                Cancel
-              </Button>
-            </form>
-          </div>
-        </div>
+          <TextFieldGroup
+            placeholder="Confirm Password"
+            name="password2"
+            type="password"
+            value={this.state.password2}
+            onChange={this.onChange}
+            error={errors.password2}
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="secondary"
+            className="mt-4"
+          >
+            Register
+          </Button>
+          <Button
+            onClick={() => this.props.history.push("/signin")}
+            type="submit"
+            variant="outlined"
+            color="secondary"
+            fullWidth
+            className="mt-2"
+          >
+            Cancel
+          </Button>
+        </form>
       </div>
     );
   }

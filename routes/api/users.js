@@ -304,7 +304,7 @@ router.post("/stars/:id", (req, res) => {
     );
 });
 
-// @route   PUT api/advertisements/:id
+// @route   PUT api/users/rating/:id
 // @desc    Add ratings
 // @access  Private
 router.put(
@@ -332,7 +332,8 @@ router.put(
       } else {
         User.updateOne(
           { _id: req.params.id, "ratings.user": req.user.id },
-          { $set: { "ratings.$.rating": req.body.rating } }
+          { $set: { "ratings.$.rating": req.body.rating } },
+          { new: true }
         ).then(() => {
           User.findById(req.params.id).then(d => res.json(d));
         });

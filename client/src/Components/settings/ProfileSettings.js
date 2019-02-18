@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { profileSettings } from "../../actions/authActions";
+import { getWorkerTypes } from "../../actions/worketypesAction";
+
 import Button from "@material-ui/core/Button";
 
 import { getWorker } from "../..//actions/workersActions";
@@ -19,12 +21,17 @@ class ProfileSettings extends Component {
       name: "",
       cityprovince: "",
       contactinfo: "",
-      errors: {}
+      agency: "",
+      workertype: "",
+      details: "",
+      errors: {},
+      workertypes: [{ workertype: "" }]
     };
   }
 
   componentDidMount() {
     this.props.getWorker(this.props.auth.user.id);
+    this.props.getWorkerTypes();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -38,15 +45,25 @@ class ProfileSettings extends Component {
         name,
         cityprovince,
         contactinfo,
-        email
+        email,
+        details,
+        workertype,
+        agency
       } = nextProps.workers.worker;
       this.setState({
         completeaddress,
         name,
         cityprovince,
         contactinfo,
-        email
+        email,
+        details,
+        workertype,
+        agency
       });
+
+      if (nextProps.workertypes) {
+        this.setState({ workertypes: nextProps.workertypes });
+      }
     }
   }
 
@@ -55,13 +72,24 @@ class ProfileSettings extends Component {
   };
 
   onSubmit = e => {
-    const { completeaddress, name, cityprovince, contactinfo } = this.state;
+    const {
+      completeaddress,
+      name,
+      cityprovince,
+      contactinfo,
+      workertype,
+      agency,
+      details
+    } = this.state;
     e.preventDefault();
     const userData = {
       name,
       completeaddress,
       cityprovince,
-      contactinfo
+      contactinfo,
+      workertype,
+      agency,
+      details
     };
     this.props.profileSettings(userData, this.props.history);
   };
@@ -71,6 +99,9 @@ class ProfileSettings extends Component {
   };
 
   render() {
+    const workertypes = this.state.workertypes.map(x => {
+      return x["workertype"];
+    });
     const {
       email,
       name,
@@ -79,88 +110,115 @@ class ProfileSettings extends Component {
       completeaddress
     } = this.state;
     const { errors } = this.state;
+
     return (
-      <div className="container my-5">
-        <div className="row">
-          <div className="col-md-6 m-auto">
-            <p className="lead text-center">Settings Account</p>
-            <form onSubmit={this.onSubmit} className="p-3">
-              <TextFieldGroup
-                placeholder="Email Address"
-                name="email"
-                type="email"
-                value={email}
-                onChange={this.onChange}
-                error={errors.email}
-                disabled={true}
-              />
+      <div className="container">
+        <p className="lead text-center">Settings Account</p>
+        <form onSubmit={this.onSubmit} className="">
+          <TextFieldGroup
+            placeholder="Email Address"
+            name="email"
+            type="email"
+            value={email}
+            onChange={this.onChange}
+            error={errors.email}
+            disabled={true}
+          />
 
-              <TextFieldGroup
-                placeholder="Full name"
-                name="name"
-                value={name}
-                onChange={this.onChange}
-                error={errors.name}
-              />
+          <TextFieldGroup
+            placeholder="Full name"
+            name="name"
+            value={name}
+            onChange={this.onChange}
+            error={errors.name}
+          />
 
-              <TextFieldGroup
-                placeholder="Contact Info"
-                name="contactinfo"
-                value={contactinfo}
-                onChange={this.onChange}
-                error={errors.contactinfo}
-              />
+          <TextFieldGroup
+            placeholder="Contact Info"
+            name="contactinfo"
+            value={contactinfo}
+            onChange={this.onChange}
+            error={errors.contactinfo}
+          />
 
+          <SelectListGroup
+            name="cityprovince"
+            value={cityprovince}
+            options={["Cebu", "Bohol", "Bantayan"]}
+            error={errors.cityprovince}
+            onChange={this.onChange}
+          />
+
+          <TextFieldGroup
+            placeholder="Your Complete Address"
+            name="completeaddress"
+            value={completeaddress}
+            onChange={this.onChange}
+            error={errors.completeaddress}
+            rows="4"
+            multiline
+          />
+
+          {this.props.auth.user.usertype !== "user" ? (
+            <React.Fragment>
               <SelectListGroup
-                name="cityprovince"
-                value={cityprovince}
-                options={["Cebu", "Bohol", "Bantayan"]}
-                error={errors.cityprovince}
+                name="workertype"
+                value={this.state.workertype}
+                options={workertypes}
+                error={errors.workertype}
                 onChange={this.onChange}
               />
 
               <TextFieldGroup
-                placeholder="Your Complete Address"
-                name="completeaddress"
-                value={completeaddress}
+                placeholder="Agency"
+                name="agency"
+                value={this.state.agency}
                 onChange={this.onChange}
-                error={errors.completeaddress}
-                rows="4"
-                multiline
+                error={errors.agency}
               />
 
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="secondary"
-                className="mt-3"
-              >
-                Save Changes
-              </Button>
-              <Button
-                type="button"
-                fullWidth
-                variant="contained"
-                color="secondary"
-                onClick={this.onRoute.bind(this, "/settings/password")}
-                className="mt-2"
-              >
-                Password Settings
-              </Button>
-              <Button
-                type="button"
-                fullWidth
-                variant="outlined"
-                color="secondary"
-                onClick={this.onRoute.bind(this, "/")}
-                className="mt-2"
-              >
-                Cancel
-              </Button>
-            </form>
-          </div>
-        </div>
+              <TextFieldGroup
+                placeholder="Biography"
+                name="details"
+                value={this.state.details}
+                onChange={this.onChange}
+                error={errors.details}
+                multiline={true}
+                rows="4"
+              />
+            </React.Fragment>
+          ) : null}
+
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="secondary"
+            className="mt-3"
+          >
+            Save Changes
+          </Button>
+          <Button
+            type="button"
+            fullWidth
+            variant="contained"
+            color="secondary"
+            onClick={this.onRoute.bind(this, "/settings/password")}
+            className="mt-2"
+          >
+            Password Settings
+          </Button>
+          <Button
+            type="button"
+            fullWidth
+            variant="outlined"
+            color="secondary"
+            onClick={this.onRoute.bind(this, "/")}
+            className="mt-2"
+          >
+            Cancel
+          </Button>
+        </form>
       </div>
     );
   }
@@ -171,16 +229,18 @@ ProfileSettings.propTypes = {
   getWorker: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
+  getWorkerTypes: PropTypes.func.isRequired,
   workers: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors,
-  workers: state.workers
+  workers: state.workers,
+  workertypes: state.workertypes.workertypes
 });
 
 export default connect(
   mapStateToProps,
-  { profileSettings, getWorker }
+  { profileSettings, getWorker, getWorkerTypes }
 )(withRouter(ProfileSettings));

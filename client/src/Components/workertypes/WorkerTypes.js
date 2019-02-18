@@ -46,7 +46,7 @@ class WorkerTypes extends Component {
       <div>
         <h1>Worker Types</h1>
         <WorkerTypeForm />
-        <ul className="list-group">{listworkertypes}</ul>
+        <ul className="list-group mt-4">{listworkertypes}</ul>
       </div>
     );
   }

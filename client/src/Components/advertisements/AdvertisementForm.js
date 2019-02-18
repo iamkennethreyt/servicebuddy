@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addAdvertisement } from "../../actions/advertisementAction";
 import TextFieldGroup from "../common/TextFieldGroup";
+import Button from "@material-ui/core/Button";
+import { withRouter } from "react-router-dom";
 
 class AdvertisementForm extends Component {
   constructor() {
@@ -40,23 +42,37 @@ class AdvertisementForm extends Component {
     const { errors } = this.state;
 
     return (
-      <div className="container my-5">
-        <div className="row">
-          <div className="col-md-6 m-auto">
-            <p className="lead text-center">Add Advertisment</p>
-            <form onSubmit={this.onSubmit} className="p-3">
-              <TextFieldGroup
-                placeholder="Paste image URL of advertisement"
-                name="advertisement"
-                value={this.state.advertisement}
-                onChange={this.onChange}
-                error={errors.advertisement}
-              />
+      <div className="container">
+        <p className="lead text-center">Add Advertisment</p>
+        <form onSubmit={this.onSubmit} className="">
+          <TextFieldGroup
+            placeholder="Paste image URL of advertisement"
+            name="advertisement"
+            value={this.state.advertisement}
+            onChange={this.onChange}
+            error={errors.advertisement}
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="secondary"
+            className="mt-3"
+          >
+            Add
+          </Button>
 
-              <input type="submit" className="btn btn-info btn-block mt-2" />
-            </form>
-          </div>
-        </div>
+          <Button
+            type="button"
+            fullWidth
+            variant="outlined"
+            color="secondary"
+            className="mt-3"
+            onClick={() => this.props.history.push("/")}
+          >
+            Cancel
+          </Button>
+        </form>
       </div>
     );
   }
@@ -74,4 +90,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { addAdvertisement }
-)(AdvertisementForm);
+)(withRouter(AdvertisementForm));

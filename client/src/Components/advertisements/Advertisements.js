@@ -44,7 +44,7 @@ class Advertisements extends Component {
       <div>
         <h1>Advertisements</h1>
         <AdvertisementForm />
-        <ul className="list-group">{listadvertisements}</ul>
+        <ul className="list-group mt-3">{listadvertisements}</ul>
       </div>
     );
   }

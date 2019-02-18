@@ -1,11 +1,8 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
-import { withRouter, Link } from "react-router-dom";
-
-import Paper from "@material-ui/core/Paper";
-import { withStyles } from "@material-ui/core/styles";
+import { withRouter } from "react-router-dom";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Home from "@material-ui/icons/Home";
@@ -33,7 +30,7 @@ class Navbar extends Component {
   render() {
     return !_.isEmpty(this.props.auth.user) ? (
       <React.Fragment>
-        <div className="pt-4" />
+        <div style={{ height: "70px" }} />
         <Tabs
           position="fixed"
           value={this.state.value}
