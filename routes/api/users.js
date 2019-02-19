@@ -249,6 +249,7 @@ router.get(
 // @access  Public
 router.get("/worker/:id", (req, res) => {
   User.findById(req.params.id)
+    .populate("feedbacks.user")
     .then(user => {
       if (!user) {
         return res
@@ -265,7 +266,8 @@ router.get("/worker/:id", (req, res) => {
         details,
         completeaddress,
         contactinfo,
-        agency
+        agency,
+        feedbacks
       } = user;
 
       res.json({
@@ -279,7 +281,8 @@ router.get("/worker/:id", (req, res) => {
         completeaddress,
         contactinfo,
         agency,
-        rating: _.round(_.meanBy(ratings, o => o.rating))
+        rating: _.round(_.meanBy(ratings, o => o.rating)),
+        feedbacks
       });
     })
     .catch(err =>

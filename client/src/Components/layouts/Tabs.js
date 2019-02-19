@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+
+import Modal from "@material-ui/core/Modal";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
 import { withRouter } from "react-router-dom";
@@ -9,13 +12,28 @@ import Home from "@material-ui/icons/Home";
 import People from "@material-ui/icons/NaturePeople";
 import Power from "@material-ui/icons/PowerSettingsNew";
 import Settings from "@material-ui/icons/Settings";
+import Note from "@material-ui/icons/Note";
+import Add from "@material-ui/icons/FontDownload";
 import _ from "lodash";
 
+const styles = theme => ({
+  paper: {
+    top: `${50}%`,
+    left: `${50}%`,
+    transform: `translate(-${50}%, -${50}%)`,
+    position: "absolute",
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    outline: "none"
+  }
+});
+
 class Navbar extends Component {
-  state = { value: 0 };
+  state = { value: 0, open: false, valueAdd: 10 };
   onLogoutClick(e) {
     e.preventDefault();
     this.props.logoutUser();
+    this.setState({ value: 0 });
   }
 
   onRoute = route => {
@@ -25,11 +43,55 @@ class Navbar extends Component {
   handleChange = (e, value) => {
     e.preventDefault();
     this.setState({ value });
+    this.handleOpen();
+  };
+
+  componentDidMount() {
+    // console.log();
+    if (this.props.history.location.pathname === "/workers") {
+      this.setState({ value: 1 });
+    }
+
+    if (this.props.history.location.pathname === "/settings") {
+      this.setState({ value: 2 });
+    }
+  }
+
+  rand = num => {
+    return Math.floor(Math.random() * Math.floor(num));
+  };
+
+  handleOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
   };
 
   render() {
+    const { classes } = this.props;
+    let imgStatic =
+      "https://images.unsplash.com/photo-1550431729-428daf3a19e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60";
+
+    if (!_.isEmpty(this.props.advertisements)) {
+      imgStatic = this.props.advertisements[
+        this.rand(this.props.advertisements.length)
+      ];
+    }
     return !_.isEmpty(this.props.auth.user) ? (
       <React.Fragment>
+        {/* <Button onClick={this.handleOpen}>Open Modal</Button> */}
+        <Modal
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+          open={this.state.open}
+          onClose={this.handleClose}
+        >
+          <div className={classes.paper}>
+            <img src={imgStatic.advertisement} alt="Advertisement" />
+          </div>
+        </Modal>
         <div style={{ height: "70px" }} />
         <Tabs
           position="fixed"
@@ -45,19 +107,37 @@ class Navbar extends Component {
             label="HOME"
             onClick={this.onRoute.bind(this, "/")}
           />
-          <Tab
-            icon={<People />}
-            label="Workers"
-            onClick={this.onRoute.bind(this, "/workers")}
-          />
+          {this.props.auth.user.usertype !== "admin" ? (
+            <Tab
+              icon={<People />}
+              label="Workers"
+              onClick={this.onRoute.bind(this, "/workers")}
+            />
+          ) : null}
           <Tab
             icon={<Settings />}
-            label="SETTINGS"
+            label="settings"
             onClick={this.onRoute.bind(this, "/settings")}
           />
+
+          {this.props.auth.user.usertype === "admin" ? (
+            <React.Fragment>
+              <Tab
+                icon={<Note />}
+                label="types"
+                onClick={this.onRoute.bind(this, "/workertypes")}
+              />
+              <Tab
+                icon={<Add />}
+                label="Ads"
+                onClick={this.onRoute.bind(this, "/advertisements")}
+              />
+            </React.Fragment>
+          ) : null}
+
           <Tab
             icon={<Power />}
-            label="SIGN OUT"
+            label="SIGNOUT"
             onClick={this.onLogoutClick.bind(this)}
           />
         </Tabs>
@@ -68,14 +148,16 @@ class Navbar extends Component {
 
 Navbar.propTypes = {
   logoutUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  advertisements: state.advertisements.advertisements
 });
 
 export default connect(
   mapStateToProps,
   { logoutUser }
-)(withRouter(Navbar));
+)(withRouter(withStyles(styles)(Navbar)));

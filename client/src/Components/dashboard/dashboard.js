@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { getAdvertisements } from "../../actions/advertisementAction";
 
 class Dashboard extends Component {
+  componentDidMount() {
+    this.props.getAdvertisements();
+  }
   render() {
     return (
       <div>
@@ -14,4 +19,7 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+export default connect(
+  null,
+  { getAdvertisements }
+)(Dashboard);
