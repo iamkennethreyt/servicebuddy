@@ -41,7 +41,7 @@ class Dashboard extends Component {
         <div className="text-center">
           <h3>Welcome to Service Buddy {this.props.auth.user.name}</h3>
         </div>
-        {display}
+        {this.props.auth.user.usertype === "user" ? display : null}
       </div>
     );
   }
