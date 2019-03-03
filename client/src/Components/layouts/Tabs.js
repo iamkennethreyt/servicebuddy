@@ -43,7 +43,7 @@ class Navbar extends Component {
   handleChange = (e, value) => {
     e.preventDefault();
     this.setState({ value });
-    this.handleOpen();
+    // this.handleOpen();
   };
 
   componentDidMount() {

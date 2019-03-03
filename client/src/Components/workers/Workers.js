@@ -63,64 +63,80 @@ class Workers extends Component {
               value={this.state.search}
               onChange={this.onChange}
             />
-            {searchedworkers.map((w, i) => (
-              <li key={i} className="list-group-item">
-                <h4 className="my-1 text-center">{w.name}</h4>
-                <p className="m-0">
-                  <strong>Worker Type : </strong>
-                  {w.workertype}
-                </p>
-                <p className="m-0">
-                  <strong>Worker Details : </strong>
-                  {w.details}
-                </p>
-                <p className="m-0">
-                  <strong>Contact Info : </strong>
-                  {w.contactinfo}
-                </p>
-                <p className="m-0">
-                  <strong>Email : </strong>
-                  {w.email}
-                </p>
-                <p className="m-0">
-                  <strong>Complete Address : </strong>
-                  {w.completeaddress}
-                </p>
-                <p className="m-0">
-                  <strong>Agency : </strong>
+            {searchedworkers
+              .filter(x => {
+                if (this.props.match.params.workertype) {
+                  // console.log("condition true");
+                  return x.workertype === this.props.match.params.workertype;
+                } else {
+                  return x.workertype;
+                }
+              })
+              .map((w, i) => (
+                <li key={i} className="list-group-item">
+                  <h4 className="my-1 text-center">{w.name}</h4>
+                  <p className="m-0">
+                    <strong>Worker Type : </strong>
+                    {w.workertype}
+                  </p>
+                  <p className="m-0">
+                    <strong>Worker Details : </strong>
+                    {w.details}
+                  </p>
+                  <p className="m-0">
+                    <strong>Contact Info : </strong>
+                    {w.status ? w.contactinfo : "Contact Info Not Available"}
+                  </p>
+                  <p className="m-0">
+                    <strong>Email : </strong>
+                    {w.status ? w.email : "Email Not Available"}
+                  </p>
+                  <p className="m-0">
+                    <strong>Complete Address : </strong>
+                    {w.completeaddress}
+                  </p>
+                  <p className="m-0">
+                    <strong>Agency : </strong>
 
-                  {w.agency}
-                </p>
-                <p className="m-0">
-                  <strong>Rating : </strong>
-                  <Star
-                    fontSize="large"
-                    color={w.rating >= 1 ? "secondary" : "inherit"}
-                  />
-                  <Star
-                    fontSize="large"
-                    color={w.rating >= 2 ? "secondary" : "inherit"}
-                  />
-                  <Star
-                    fontSize="large"
-                    color={w.rating >= 3 ? "secondary" : "inherit"}
-                  />
-                  <Star
-                    fontSize="large"
-                    color={w.rating >= 4 ? "secondary" : "inherit"}
-                  />
-                  <Star
-                    fontSize="large"
-                    color={w.rating >= 5 ? "secondary" : "inherit"}
-                  />
-                </p>
-                <Link to={`worker/${w._id}`}>View Profile</Link>
-              </li>
-            ))}
+                    {w.agency}
+                  </p>
+                  <p className="m-0">
+                    <strong>Rating : </strong>
+                    <Star
+                      fontSize="large"
+                      color={w.rating >= 1 ? "secondary" : "inherit"}
+                    />
+                    <Star
+                      fontSize="large"
+                      color={w.rating >= 2 ? "secondary" : "inherit"}
+                    />
+                    <Star
+                      fontSize="large"
+                      color={w.rating >= 3 ? "secondary" : "inherit"}
+                    />
+                    <Star
+                      fontSize="large"
+                      color={w.rating >= 4 ? "secondary" : "inherit"}
+                    />
+                    <Star
+                      fontSize="large"
+                      color={w.rating >= 5 ? "secondary" : "inherit"}
+                    />
+                  </p>
+                  <Link to={`worker/${w._id}`}>View Profile</Link>
+                </li>
+              ))}
           </ul>
         );
     }
-    return <div>{listworkers}</div>;
+    return (
+      <div>
+        <h3 className="text-center">
+          List of all {this.props.match.params.workertype}
+        </h3>
+        {listworkers}
+      </div>
+    );
   }
 }
 

@@ -83,6 +83,13 @@ class App extends Component {
                   <PrivateRoute exact path="/workers" component={Workers} />
                 </Switch>
                 <Switch>
+                  <PrivateRoute
+                    exact
+                    path="/workers/:workertype"
+                    component={Workers}
+                  />
+                </Switch>
+                <Switch>
                   <PrivateRoute exact path="/worker/:id" component={Worker} />
                 </Switch>
               </div>

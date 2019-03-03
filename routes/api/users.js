@@ -224,7 +224,8 @@ router.get(
             details,
             completeaddress,
             contactinfo,
-            agency
+            agency,
+            status
           } = u;
           return {
             _id,
@@ -236,6 +237,7 @@ router.get(
             agency,
             completeaddress,
             contactinfo,
+            status,
             rating: _.round(_.meanBy(ratings, o => o.rating))
           };
         })
@@ -371,4 +373,18 @@ router.put(
   }
 );
 
+//@route    PUT api/profile/accountsettings
+//@desc     account settings of the current logged in user
+//@access   private
+router.put(
+  "/changestatus/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    User.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: { status: req.body.status } },
+      { new: true }
+    ).then(user => res.json(user));
+  }
+);
 module.exports = router;
