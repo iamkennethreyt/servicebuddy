@@ -64,6 +64,7 @@ class Workers extends Component {
               onChange={this.onChange}
             />
             {searchedworkers
+              .filter(y => y.status === true)
               .filter(x => {
                 if (this.props.match.params.workertype) {
                   // console.log("condition true");
@@ -85,11 +86,11 @@ class Workers extends Component {
                   </p>
                   <p className="m-0">
                     <strong>Contact Info : </strong>
-                    {w.status ? w.contactinfo : "Contact Info Not Available"}
+                    {w.contactinfo}
                   </p>
                   <p className="m-0">
                     <strong>Email : </strong>
-                    {w.status ? w.email : "Email Not Available"}
+                    {w.email}
                   </p>
                   <p className="m-0">
                     <strong>Complete Address : </strong>
