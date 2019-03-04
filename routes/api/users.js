@@ -5,6 +5,7 @@ const passport = require("passport");
 const router = express.Router();
 const _ = require("lodash");
 const key = require("../../config/key").secretOrkey;
+const transporter = require("../../config/key").transporter;
 
 //load validation
 const ValidateRegisterInput = require("../../validations/register");
@@ -98,7 +99,8 @@ router.post("/login", (req, res) => {
           contactinfo: user.contactinfo,
           cityprovince: user.cityprovince,
           completeaddress: user.completeaddress,
-          usertype: user.usertype
+          usertype: user.usertype,
+          status: user.status
         };
 
         //sign token
@@ -385,6 +387,30 @@ router.put(
       { $set: { status: req.body.status } },
       { new: true }
     ).then(user => res.json(user));
+  }
+);
+
+// @route POST /upload
+// @desc  send email to admin
+router.post(
+  "/sendemailtoadmin",
+  // passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { email, message } = req.body;
+    const mailOptions = {
+      from: email,
+      to: "davepilapil49@gmail.com",
+      subject: "Message from your Service Buddy App",
+      text: message
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return res.status(400).json(error);
+      } else {
+        res.json({ success: info.response });
+      }
+    });
   }
 );
 module.exports = router;

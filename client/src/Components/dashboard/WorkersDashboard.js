@@ -35,7 +35,7 @@ class WorkersDashboard extends React.Component {
     const { classes } = this.props;
     return (
       <List
-        subheader={<ListSubheader>Settings</ListSubheader>}
+        subheader={<ListSubheader>List of all registered User</ListSubheader>}
         className={classes.root}
       >
         {this.props.workers.workers.map((w, i) => {
