@@ -124,7 +124,7 @@ class Workers extends Component {
                       color={w.rating >= 5 ? "secondary" : "inherit"}
                     />
                   </p>
-                  <Link to={`worker/${w._id}`}>View Profile</Link>
+                  <Link to={`/worker/${w._id}`}>View Profile</Link>
                 </li>
               ))}
           </ul>
