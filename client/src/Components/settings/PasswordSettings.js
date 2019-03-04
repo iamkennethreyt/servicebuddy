@@ -43,7 +43,7 @@ class PasswordSettings extends Component {
           <p className="h4 mb-4">Password Settings</p>
 
           <TextFieldGroup
-            placeholder="New Password"
+            placeholder="Old Password"
             name="password"
             type="password"
             value={this.state.password}

@@ -107,7 +107,7 @@ class Navbar extends Component {
             label="HOME"
             onClick={this.onRoute.bind(this, "/")}
           />
-          {this.props.auth.user.usertype == "user" ? (
+          {this.props.auth.user.usertype === "user" ? (
             <Tab
               icon={<People />}
               label="Workers"

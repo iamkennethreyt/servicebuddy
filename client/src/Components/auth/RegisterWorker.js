@@ -149,14 +149,6 @@ class RegisterUser extends Component {
           />
 
           <TextFieldGroup
-            placeholder="Agency"
-            name="agency"
-            value={this.state.agency}
-            onChange={this.onChange}
-            error={errors.agency}
-          />
-
-          <TextFieldGroup
             placeholder="Biography"
             name="details"
             value={this.state.details}

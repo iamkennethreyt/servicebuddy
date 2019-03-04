@@ -136,7 +136,7 @@ class Dashboard extends Component {
                     />
 
                     <button
-                      className="btn teal darken-2 btn-block mt-2"
+                      className="btn btn-info btn-block mt-2"
                       type="submit"
                     >
                       Send
