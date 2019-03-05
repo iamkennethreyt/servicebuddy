@@ -13,6 +13,8 @@
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "react": "^16.7.0",
+    "react-alertify-js": "0.0.1",
+    "react-confirm-alert": "^2.3.0",
     "react-credit-card-input": "^1.1.1",
     "react-dom": "^16.7.0",
     "react-full-screen": "^0.2.3",

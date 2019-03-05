@@ -6,6 +6,7 @@ import { getWorkers } from "../../actions/workersActions";
 import Spinner from "../common/Spinner";
 import Star from "@material-ui/icons/StarRate";
 import TextFieldGroup from "../common/TextFieldGroup";
+import Avatar from "@material-ui/core/Avatar";
 
 import Fuse from "fuse.js";
 
@@ -67,7 +68,6 @@ class Workers extends Component {
               .filter(y => y.status)
               .filter(x => {
                 if (this.props.match.params.workertype) {
-                  // console.log("condition true");
                   return x.workertype === this.props.match.params.workertype;
                 } else {
                   return x.workertype;
@@ -75,6 +75,11 @@ class Workers extends Component {
               })
               .map((w, i) => (
                 <li key={i} className="list-group-item">
+                  <Avatar
+                    alt="profile image"
+                    src={`/api/users/image/${w.image}`}
+                    style={{ margin: "auto", width: 100, height: 100 }}
+                  />
                   <h4 className="my-1 text-center">{w.name}</h4>
                   <p className="m-0">
                     <strong>Worker Type : </strong>

@@ -7,10 +7,23 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import Switch from "@material-ui/core/Switch";
+import TextFieldGroup from "../common/TextFieldGroup";
 
 import { connect } from "react-redux";
 import { getWorkers } from "../../actions/workersActions";
 import Axios from "axios";
+import Fuse from "fuse.js";
+
+const options = {
+  caseSensitive: true,
+  shouldSort: true,
+  threshold: 0.6,
+  location: 0,
+  distance: 100,
+  maxPatternLength: 32,
+  minMatchCharLength: 0,
+  keys: ["name"]
+};
 
 const styles = theme => ({
   root: {
@@ -25,17 +38,30 @@ class WorkersDashboard extends React.Component {
     this.props.getWorkers();
   }
   state = {
-    checked: ["wifi"]
+    value: ""
   };
 
   render() {
     const { classes } = this.props;
+
+    const fused = new Fuse(this.props.workers.workers, options);
+
+    let searchedworkers = fused.search(this.state.value);
+
+    if (this.state.value === "") {
+      searchedworkers = this.props.workers.workers;
+    }
     return (
       <List
         subheader={<ListSubheader>List of all registered User</ListSubheader>}
         className={classes.root}
       >
-        {this.props.workers.workers.map((w, i) => {
+        <TextFieldGroup
+          placeholder="Search Worker"
+          value={this.state.search}
+          onChange={e => this.setState({ value: e.target.value })}
+        />
+        {searchedworkers.map((w, i) => {
           return (
             <ListItem key={i}>
               <ListItemText primary={`${w.name}`} />

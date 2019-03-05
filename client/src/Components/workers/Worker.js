@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import _ from "lodash";
 import { connect } from "react-redux";
 import moment from "moment";
+import Avatar from "@material-ui/core/Avatar";
+
 import {
   getWorker,
   rateWorker,
@@ -102,6 +104,11 @@ class Worker extends Component {
         <h3>No Worker on this link</h3>
       ) : (
         <div className="text-muted">
+          <Avatar
+            alt="profile image"
+            src={`/api/users/image/${w.image}`}
+            style={{ margin: "auto", width: 100, height: 100 }}
+          />
           <h4 className="my-1 text-center">{w.name}</h4>
           <p className="m-0">
             <strong>Worker Type : </strong>

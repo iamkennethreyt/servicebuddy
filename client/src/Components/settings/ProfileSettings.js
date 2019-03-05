@@ -1,3 +1,4 @@
+import { confirmAlert } from "react-confirm-alert"; // Importz
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -12,6 +13,9 @@ import { withRouter } from "react-router-dom";
 import TextFieldGroup from "../common/TextFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
 
+import Avatar from "@material-ui/core/Avatar";
+import Axios from "axios";
+
 class ProfileSettings extends Component {
   constructor() {
     super();
@@ -25,7 +29,9 @@ class ProfileSettings extends Component {
       workertype: "",
       details: "",
       errors: {},
-      workertypes: [{ workertype: "" }]
+      image: "",
+      workertypes: [{ workertype: "" }],
+      selectedFile: ""
     };
   }
 
@@ -48,7 +54,8 @@ class ProfileSettings extends Component {
         email,
         details,
         workertype,
-        agency
+        agency,
+        image
       } = nextProps.workers.worker;
       this.setState({
         completeaddress,
@@ -58,7 +65,8 @@ class ProfileSettings extends Component {
         email,
         details,
         workertype,
-        agency
+        agency,
+        image
       });
 
       if (nextProps.workertypes) {
@@ -107,13 +115,83 @@ class ProfileSettings extends Component {
       name,
       contactinfo,
       cityprovince,
-      completeaddress
+      completeaddress,
+      image
     } = this.state;
     const { errors } = this.state;
-
     return (
       <div className="container">
         <p className="lead text-center">Settings Account</p>
+        {this.props.auth.user.usertype === "worker" ? (
+          <div>
+            <Avatar
+              alt="profile image"
+              src={`/api/users/image/${image}`}
+              style={{ margin: "auto", width: 100, height: 100 }}
+            />
+            <form
+              className="custom-file"
+              encType="multipart/form-data"
+              onSubmit={e => {
+                e.preventDefault();
+
+                const formData = new FormData();
+                formData.append(
+                  "file",
+                  this.state.selectedFile,
+                  this.state.selectedFile.name
+                );
+                Axios.post("/api/users/upload", formData, {
+                  headers: {
+                    "Content-Type": "multipart/form-data"
+                  }
+                })
+                  .then(() => {
+                    confirmAlert({
+                      message: "You had successfully update your profile",
+                      buttons: [
+                        {
+                          label: "Ok"
+                        }
+                      ]
+                    });
+                  })
+                  .catch(err => {
+                    confirmAlert({
+                      message: "You have not selected image yet",
+                      buttons: [
+                        {
+                          label: "Ok"
+                        }
+                      ]
+                    });
+                  });
+              }}
+            >
+              >
+              <input
+                type="file"
+                name="file"
+                id="file"
+                className="custom-file-input"
+                onChange={event => {
+                  this.setState({
+                    selectedFile: event.target.files[0]
+                  });
+                }}
+              />
+              <label htmlFor="file" className="custom-file-label">
+                Choose your Profile
+              </label>
+              <input
+                type="submit"
+                value="Upload Profile"
+                className="btn mt-1  btn-primary"
+              />
+            </form>
+          </div>
+        ) : null}
+
         <form onSubmit={this.onSubmit} className="">
           <TextFieldGroup
             placeholder="Email Address"

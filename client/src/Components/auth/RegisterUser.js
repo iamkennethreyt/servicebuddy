@@ -6,6 +6,7 @@ import { registerUser } from "../../actions/authActions";
 import TextFieldGroup from "../common/TextFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
 import Button from "@material-ui/core/Button";
+import { confirmAlert } from "react-confirm-alert"; // Import
 
 class RegisterUser extends Component {
   constructor() {
@@ -31,6 +32,17 @@ class RegisterUser extends Component {
       this.props.history.push("/");
     }
   }
+
+  onSuccess = () => {
+    confirmAlert({
+      message: "You had successfully registered an account",
+      buttons: [
+        {
+          label: "Ok"
+        }
+      ]
+    });
+  };
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
@@ -65,7 +77,7 @@ class RegisterUser extends Component {
       usertype
     };
 
-    this.props.registerUser(userData, this.props.history);
+    this.props.registerUser(userData, this.props.history, this.onSuccess);
   }
 
   onChange(e) {

@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
+const methodOverride = require("method-override");
 
 const users = require("./routes/api/users");
 const workertypes = require("./routes/api/workertypes");
@@ -15,6 +16,7 @@ app.use(bodyParser.json());
 
 //db config
 const db = require("./config/key").mongoURI;
+app.use(methodOverride("_method"));
 
 //connect to mongo
 mongoose
@@ -27,7 +29,6 @@ app.use(passport.initialize());
 
 //passport config
 require("./config/passport")(passport);
-
 
 //use routesadvertisements
 app.use("/api/users", users);

@@ -35,8 +35,10 @@ const UserSchema = new Schema({
   },
   workertype: {
     type: String
-    // type: Schema.Types.ObjectId,
-    // ref: "workertypes"
+  },
+  image: {
+    type: String,
+    default: `nothing`
   },
   usertype: {
     type: String,

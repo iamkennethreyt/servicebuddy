@@ -15,6 +15,7 @@ import Settings from "@material-ui/icons/Settings";
 import Note from "@material-ui/icons/Note";
 import Add from "@material-ui/icons/FontDownload";
 import _ from "lodash";
+import { confirmAlert } from "react-confirm-alert"; // Import
 
 const styles = theme => ({
   paper: {
@@ -32,8 +33,22 @@ class Navbar extends Component {
   state = { value: 0, open: false, valueAdd: 10 };
   onLogoutClick(e) {
     e.preventDefault();
-    this.props.logoutUser();
-    this.setState({ value: 0 });
+
+    confirmAlert({
+      message: "Are you sure to logout the account?",
+      buttons: [
+        {
+          label: "Ok",
+          onClick: () => {
+            this.props.logoutUser();
+            this.setState({ value: 0 });
+          }
+        },
+        {
+          label: "Cancel"
+        }
+      ]
+    });
   }
 
   onRoute = route => {
@@ -81,7 +96,6 @@ class Navbar extends Component {
     }
     return !_.isEmpty(this.props.auth.user) ? (
       <React.Fragment>
-        {/* <Button onClick={this.handleOpen}>Open Modal</Button> */}
         <Modal
           aria-labelledby="simple-modal-title"
           aria-describedby="simple-modal-description"

@@ -5,10 +5,13 @@ import jwt_decode from "jwt-decode";
 import { GET_ERRORS, SET_CURRENT_USER, PUT_USER } from "./types";
 
 // Register User
-export const registerUser = (userData, history) => dispatch => {
+export const registerUser = (userData, history, success) => dispatch => {
   axios
     .post("/api/users/register", userData)
-    .then(res => history.push("/signin"))
+    .then(res => {
+      history.push("/signin");
+      success();
+    })
     .catch(err =>
       dispatch({
         type: GET_ERRORS,

@@ -7,13 +7,56 @@ const _ = require("lodash");
 const key = require("../../config/key").secretOrkey;
 const transporter = require("../../config/key").transporter;
 
+const crypto = require("crypto");
+const mongoose = require("mongoose");
+const multer = require("multer");
+const GridFsStorage = require("multer-gridfs-storage");
+const Grid = require("gridfs-stream");
+const path = require("path");
+
 //load validation
 const ValidateRegisterInput = require("../../validations/register");
 const ValidateLoginInput = require("../../validations/login");
 const ValidatePasswordSettings = require("../../validations/accountsettings/password");
 
+// Mongo URI
+const mongoURI = "mongodb://localhost:27017/servicebuddy";
+
+// Create mongo connection
+const conn = mongoose.createConnection(mongoURI);
+
+// Init gfs
+let gfs;
+
+conn.once("open", () => {
+  // Init stream
+  gfs = Grid(conn.db, mongoose.mongo);
+  gfs.collection("uploads");
+});
+
 //load User model
 const User = require("../../models/User");
+
+// Create storage engine
+const storage = new GridFsStorage({
+  url: mongoURI,
+  file: (req, file) => {
+    return new Promise((resolve, reject) => {
+      crypto.randomBytes(16, (err, buf) => {
+        if (err) {
+          return reject(err);
+        }
+        const filename = buf.toString("hex") + path.extname(file.originalname);
+        const fileInfo = {
+          filename: filename,
+          bucketName: "uploads"
+        };
+        resolve(fileInfo);
+      });
+    });
+  }
+});
+const upload = multer({ storage });
 
 //@route    GET api/users/profile
 //@desc     return current user
@@ -227,7 +270,8 @@ router.get(
             completeaddress,
             contactinfo,
             agency,
-            status
+            status,
+            image
           } = u;
           return {
             _id,
@@ -240,6 +284,7 @@ router.get(
             completeaddress,
             contactinfo,
             status,
+            image,
             rating: _.round(_.meanBy(ratings, o => o.rating))
           };
         })
@@ -271,7 +316,8 @@ router.get("/worker/:id", (req, res) => {
         completeaddress,
         contactinfo,
         agency,
-        feedbacks
+        feedbacks,
+        image
       } = user;
 
       res.json({
@@ -286,7 +332,8 @@ router.get("/worker/:id", (req, res) => {
         contactinfo,
         agency,
         rating: _.round(_.meanBy(ratings, o => o.rating)),
-        feedbacks
+        feedbacks,
+        image
       });
     })
     .catch(err =>
@@ -413,4 +460,48 @@ router.post(
     });
   }
 );
+
+// @route POST /upload
+// @desc  Uploads file to DB
+router.post(
+  "/upload",
+  upload.single("file"),
+  passport.authenticate("jwt", { session: false }),
+
+  (req, res) => {
+    const user = {};
+
+    user.image = req.file.filename;
+
+    User.findOneAndUpdate(
+      { _id: req.user.id },
+      { $set: user },
+      { new: true }
+    ).then(user => res.json(user));
+  }
+);
+
+// @route GET /image/:filename
+// @desc Display Image
+router.get("/image/:filename", (req, res) => {
+  gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+    // Check if file
+    if (!file || file.length === 0) {
+      return res.status(404).json({
+        err: "No file exists"
+      });
+    }
+    // Check if image
+    if (file.contentType === "image/jpeg" || file.contentType === "image/png") {
+      // Read output to browser
+      const readstream = gfs.createReadStream(file.filename);
+      readstream.pipe(res);
+    } else {
+      res.status(404).json({
+        err: "Not an image"
+      });
+    }
+  });
+});
+
 module.exports = router;

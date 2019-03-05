@@ -6,6 +6,7 @@ import { getWorkerTypes } from "../../actions/worketypesAction";
 import TextFieldGroup from "../common/TextFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
 import Button from "@material-ui/core/Button";
+import { confirmAlert } from "react-confirm-alert"; // Import
 
 class RegisterUser extends Component {
   constructor() {
@@ -29,6 +30,17 @@ class RegisterUser extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+
+  onSuccess = () => {
+    confirmAlert({
+      message: "You had successfully registered an account",
+      buttons: [
+        {
+          label: "Ok"
+        }
+      ]
+    });
+  };
 
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
@@ -80,7 +92,7 @@ class RegisterUser extends Component {
       workertype
     };
 
-    this.props.registerUser(userData, this.props.history);
+    this.props.registerUser(userData, this.props.history, this.onSuccess);
   }
 
   onChange(e) {

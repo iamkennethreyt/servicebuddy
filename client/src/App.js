@@ -13,6 +13,7 @@ import Tabs from "./Components/layouts/Tabs";
 import PrivateRoute from "./Components/common/PrivateRoute";
 
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 import Dashboard from "./Components/dashboard/dashboard";
 import Signin from "./Components/auth/SignIn";
