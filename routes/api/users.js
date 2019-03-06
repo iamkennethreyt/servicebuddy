@@ -446,7 +446,7 @@ router.post(
     const { email, message } = req.body;
     const mailOptions = {
       from: email,
-      to: "davepilapil49@gmail.com",
+      to: "servicebuddy2019@gmail.com",
       subject: "Message from your Service Buddy App",
       text: message
     };
