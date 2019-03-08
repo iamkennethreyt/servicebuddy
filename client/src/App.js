@@ -26,6 +26,9 @@ import Advertisements from "./Components/advertisements/Advertisements";
 import Workers from "./Components/workers/Workers";
 import Worker from "./Components/workers/Worker";
 import Header from "./Components/layouts/Header";
+import Requests from "./Components/jobReq/Requests";
+import Response from "./Components/jobReq/Response";
+import Accept from "./Components/jobReq/Accept";
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -58,6 +61,15 @@ class App extends Component {
                     path="/settings"
                     component={ProfileSettings}
                   />
+                </Switch>
+                <Switch>
+                  <PrivateRoute exact path="/response" component={Response} />
+                </Switch>
+                <Switch>
+                  <PrivateRoute exact path="/requests" component={Requests} />
+                </Switch>
+                <Switch>
+                  <PrivateRoute exact path="/accept" component={Accept} />
                 </Switch>
                 <Switch>
                   <PrivateRoute

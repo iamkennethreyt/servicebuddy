@@ -186,11 +186,13 @@ class ProfileSettings extends Component {
               <input
                 type="submit"
                 value="Upload Profile"
-                className="btn mt-1  btn-primary"
+                className="btn mt-1 btn-primary "
               />
             </form>
           </div>
         ) : null}
+        <br />
+        <br />
 
         <form onSubmit={this.onSubmit} className="">
           <TextFieldGroup
@@ -211,52 +213,54 @@ class ProfileSettings extends Component {
             error={errors.name}
           />
 
-          <TextFieldGroup
-            placeholder="Contact Info"
-            name="contactinfo"
-            value={contactinfo}
-            onChange={this.onChange}
-            error={errors.contactinfo}
-          />
-
-          <SelectListGroup
-            name="cityprovince"
-            value={cityprovince}
-            options={["Cebu", "Bohol", "Bantayan"]}
-            error={errors.cityprovince}
-            onChange={this.onChange}
-          />
-
-          <TextFieldGroup
-            placeholder="Your Complete Address"
-            name="completeaddress"
-            value={completeaddress}
-            onChange={this.onChange}
-            error={errors.completeaddress}
-            rows="4"
-            multiline
-          />
-
-          {this.props.auth.user.usertype !== "user" ? (
+          {this.props.auth.user.usertype !== "admin" ? (
             <React.Fragment>
+              <TextFieldGroup
+                placeholder="Contact Info"
+                name="contactinfo"
+                value={contactinfo}
+                onChange={this.onChange}
+                error={errors.contactinfo}
+              />
+
               <SelectListGroup
+                name="cityprovince"
+                value={cityprovince}
+                options={["Cebu", "Bohol", "Bantayan"]}
+                error={errors.cityprovince}
+                onChange={this.onChange}
+              />
+              <TextFieldGroup
+                placeholder="Your Complete Address"
+                name="completeaddress"
+                value={completeaddress}
+                onChange={this.onChange}
+                error={errors.completeaddress}
+                rows="4"
+                multiline
+              />
+
+              <TextFieldGroup
                 name="workertype"
                 value={this.state.workertype}
                 options={workertypes}
                 error={errors.workertype}
                 onChange={this.onChange}
-              />
-
-              <TextFieldGroup
-                placeholder="Biography"
-                name="details"
-                value={this.state.details}
-                onChange={this.onChange}
-                error={errors.details}
-                multiline={true}
-                rows="4"
+                disabled={true}
               />
             </React.Fragment>
+          ) : null}
+
+          {this.props.auth.user.usertype === "worker" ? (
+            <TextFieldGroup
+              placeholder="Biography"
+              name="details"
+              value={this.state.details}
+              onChange={this.onChange}
+              error={errors.details}
+              multiline={true}
+              rows="4"
+            />
           ) : null}
 
           <Button

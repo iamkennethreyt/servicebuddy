@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
+import FolderShared from "@material-ui/icons/FolderShared";
 
 import Modal from "@material-ui/core/Modal";
 import { connect } from "react-redux";
@@ -85,6 +86,7 @@ class Navbar extends Component {
   };
 
   render() {
+    // console.log(this.props.auth.user.status === true)
     const { classes } = this.props;
     let imgStatic =
       "https://images.unsplash.com/photo-1550431729-428daf3a19e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60";
@@ -126,6 +128,30 @@ class Navbar extends Component {
               icon={<People />}
               label="Workers"
               onClick={this.onRoute.bind(this, "/workers")}
+            />
+          ) : null}
+          {this.props.auth.user.usertype === "user" ? (
+            <Tab
+              icon={<FolderShared />}
+              label="Request"
+              onClick={this.onRoute.bind(this, "/requests")}
+            />
+          ) : null}
+
+          {this.props.auth.user.usertype === "worker" &&
+          this.props.auth.user.status === true ? (
+            <Tab
+              icon={<FolderShared />}
+              label="Request"
+              onClick={this.onRoute.bind(this, "/response")}
+            />
+          ) : null}
+          {this.props.auth.user.usertype === "worker" &&
+          this.props.auth.user.status === true ? (
+            <Tab
+              icon={<FolderShared />}
+              label="Pendings"
+              onClick={this.onRoute.bind(this, "/accept")}
             />
           ) : null}
           <Tab

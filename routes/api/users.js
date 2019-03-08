@@ -143,7 +143,8 @@ router.post("/login", (req, res) => {
           cityprovince: user.cityprovince,
           completeaddress: user.completeaddress,
           usertype: user.usertype,
-          status: user.status
+          status: user.status,
+          workertype: user.workertype
         };
 
         //sign token
@@ -448,7 +449,11 @@ router.post(
       from: email,
       to: "servicebuddy2019@gmail.com",
       subject: "Message from your Service Buddy App",
-      text: message
+      text: `You have a new message from your Servicebuddy App from ${email}
+      
+      Message:
+          ${message}
+      `
     };
 
     transporter.sendMail(mailOptions, (error, info) => {

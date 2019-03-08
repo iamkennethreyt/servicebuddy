@@ -7,6 +7,7 @@ const methodOverride = require("method-override");
 const users = require("./routes/api/users");
 const workertypes = require("./routes/api/workertypes");
 const advertisements = require("./routes/api/advertisements");
+const jobs = require("./routes/api/jobs");
 
 const app = express();
 
@@ -34,6 +35,7 @@ require("./config/passport")(passport);
 app.use("/api/users", users);
 app.use("/api/workertypes", workertypes);
 app.use("/api/advertisements", advertisements);
+app.use("/api/jobs", jobs);
 
 const port = process.env.PORT || 5000;
 

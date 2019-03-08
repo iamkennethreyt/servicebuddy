@@ -55,7 +55,7 @@ class Dashboard extends Component {
           <div>
             {!this.props.auth.user.status ? (
               <div className="text-center text-muted">
-                <h5>Your account wasn't deactivated yet.</h5>
+                <h5>Your account wasn't activated yet.</h5>
                 <div className="card">
                   <h6 className="mt-2">
                     Please Input your card info for payment
@@ -142,6 +142,14 @@ class Dashboard extends Component {
                       Send
                     </button>
                   </form>
+                  <p>
+                    <strong>Requirements:</strong>
+                    <br />
+                    NBI Clearance
+                    <br />
+                    Police Clearance
+                    <br /> Barangay Clearance
+                  </p>
                 </div>
               </div>
             ) : (

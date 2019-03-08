@@ -51,6 +51,10 @@ module.exports = function validateRegisterInput(data) {
     errors.contactinfo = "Contact info field is required";
   }
 
+  if (!validator.isLength(data.contactinfo, { min: 4, max: 11 })) {
+    errors.contactinfo = "Contact Info must be 11 characters";
+  }
+
   if (!validator.isLength(data.completeaddress, { min: 4, max: 40 })) {
     errors.completeaddress = "Complete Address must be 4 to 40 characters";
   }

@@ -61,6 +61,9 @@ class WorkersDashboard extends React.Component {
           value={this.state.search}
           onChange={e => this.setState({ value: e.target.value })}
         />
+        <p className="text-right pr-2" style={{ marginBottom: "-8px" }}>
+          Status
+        </p>
         {searchedworkers.map((w, i) => {
           return (
             <ListItem key={i}>
